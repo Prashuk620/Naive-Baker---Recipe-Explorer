@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+       /* Common styles for all screen sizes */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
+
+    .addnew {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-size: cover;
+        background-position: center;
+        background: rgb(254, 236, 194);
+    }
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+    width: 90%;
+    max-width: 1200px;
+    /* background: linear-gradient(to right, #f1800f, orange); */
+    background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("https://media.istockphoto.com/id/1287029258/photo/blurred-images-of-restaurant-and-coffee-shop-cafe-interior-background-and-lighting-bokeh.webp?b=1&s=170667a&w=0&k=20&c=8kgHZbeO_pmQrpLg6nqX6mYFwDdGUxZWmZQq0xHemKM=");
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+}
+
+.left-column,
+.right-column {
+    flex: 1;
+    padding: 20px;
+    border-radius: 20px;
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 20px;
+}
+
+.left-column {
+    background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("https://www.italiannis.com.ph/frontend/img/bg-top-black.jpg");
+    color: white;
+}
+
+.right-column {
+    /* background: linear-gradient(to right, #f1800f, orange); */
+    /* background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), url("https://media.istockphoto.com/id/1287029258/photo/blurred-images-of-restaurant-and-coffee-shop-cafe-interior-background-and-lighting-bokeh.webp?b=1&s=170667a&w=0&k=20&c=8kgHZbeO_pmQrpLg6nqX6mYFwDdGUxZWmZQq0xHemKM="); */
+}
+
+.card {
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    height: auto;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: white;
+    font-size: 14px;
+}
+
+input[type="text"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #0a0606;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0);
+    color: orange;
+}
+
+input[type="file"] {
+    margin-bottom: 20px;
+}
+
+.form-buttons {
+    margin-top: auto;
+    margin-left: 40%;
+    margin-bottom: 20px;
+}
+
+.form-buttons input {
+    padding: 10px 20px;
+    margin: 0 10px;
+    background-color: #6c63ff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+h2 {
+    margin-bottom: 20px;
+    max-width: 100%;
+    color: rgb(14, 13, 13);
+    font-weight: bold;
+}
+
+.form-buttons input:hover {
+    background-color: #5348e1;
+}
+
+h3 {
+    margin-bottom: 10px;
+    color: white;
+}
+
+.direction-title,
+.ingredient-title {
+    font-family: 'Arial', sans-serif;
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: rgb(5, 5, 8);
+}
+
+p {
+    color: #666666;
+    margin: 0;
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+select,
+option {
+    color: rgb(245, 135, 10);
+}
+
+/* Media queries for responsiveness */
+@media (min-width: 768px) {
+    .form-container {
+        flex-direction: row;
+    }
+
+    .left-column,
+    .right-column {
+        margin: 0;
+    }
+
+    .left-column {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .right-column {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .card {
+        height: 100%;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+    <!-- Include navbar.html here -->
+    {% include "navbar.html" %}
+    <div class="addnew" style="margin-top:10px;">
+        <form action="/addRecipe" method="post" enctype="multipart/form-data" class="form-container">
+            {% csrf_token %}
+            <div class="left-column">
+                <h2 style="margin-bottom: 20px; max-width: 100%;">Add New Recipe</h2>
+                <label for="recipeName">Recipe Name:</label>
+                <input type="text" name="recipeName" required>
+
+                <label for="category" style="margin-top:2px">Category:</label>
+                <select name="category">
+                    <option value="indian">Indian</option>
+                    <option value="thai">Thai</option>
+                    <option value="mexican">Mexican</option>
+                    <option value="french">French</option>
+                    <option value="chinese">Chinese</option>
+                </select>
+
+                <label for="vegitarity">Type:</label>
+                <select name="vegitarity">
+                    <option value="veg">Vegetarian</option>
+                    <option value="nonveg">Non-vegetarian</option>
+                </select>
+                <label for="mealType">Meal Type:</label>
+                <select name="mealtime">
+                    <option value="breakfast">Breakfast</option>
+                    <option value="lunch">Lunch</option>
+                    <option value="dinner">Dinner</option>
+                </select>
+                <br>
+                <br>
+                <label for="recipeTime">Recipe Time (HH:MM):</label>
+                <input type="time"  style="border-radius:1px" name="recipeTime" required>
+                <br>
+                <label for="uploadFile">Upload Your Recipe Image File:</label>
+                <input type="file" name="image" class="form-control">
+            </div>
+
+       
+            
+            <div class="right-column">
+                <div class="card">
+                    <h3 class="direction-title">Direction</h3>
+                    <textarea name="steps" rows="3" style="width: calc(100% - 20px);"></textarea>
+                </div>
+                <div class="card">
+                    <h3 class="ingredient-title">Ingredient</h3>
+                    <textarea name="list_of_ingre" rows="5" style="width: calc(100% - 20px);"></textarea>
+                </div>
+            </div>
+        </div>
+            <div class="form-buttons">
+                <input type="submit" value="Submit">
+                <input type="reset" value="Reset">
+            </div>
+        </form>
+   
+    {% include "footer.html" %}
+    <!-- Include footer.html here -->
+</body>
+</html> 

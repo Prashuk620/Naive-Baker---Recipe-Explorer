@@ -1,0 +1,556 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>recipe view</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+    <style>
+        body {
+            background-color: rgb(255, 248, 232);
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        
+        .review-container {
+            width: 367px;
+            background-color: #ffffff;
+            padding: 25px;
+            margin: 50px auto;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+           
+        }
+        
+        .input-box {
+            height : 100%;
+            width: 100%;
+            /* padding: 0px 15px; */
+        
+            border: 1px solid #dcdcdc;
+            border-radius: 10px;
+            font-size: 16px;
+            top: 0;
+        
+        }
+        
+        .submit-btn {
+            display: block;
+            height: 35px;
+            padding: auto;
+            border: 2px solid black;
+            margin-top: 15px;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+        
+        .review {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #dcdcdc;
+        }
+        
+        .review img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .review p {
+            margin: 0;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        /* .showmore {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #dcdcdc;
+            display: none;
+        }
+        
+        .showmore img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .showmore p {
+            margin: 0;
+            font-size: 14px;
+            color: #333;
+        } */
+        .boxsubmit{
+          height : 150px;
+          width : 100%;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+        }
+        input-box::placeholder{
+          position: absolute;
+          top:0;
+          left:0;
+        }
+        textarea{
+          padding-left: 10px;
+          padding-top: 7px;
+          box-sizing: border-box;
+          border: 2px solid #ccc;
+          border-radius: 4px;
+          resize: none;
+        }
+        .para{
+          display: flex;
+          width: 100%;
+        }
+        .view{
+           border: none;   
+        }
+        .more-btn{
+          height: 30px;
+          width: 90%;
+          margin-left: 10px;
+          border: none;
+          border: 2px solid black;
+          border-radius: 15px;
+          background-color: chocolate;
+        }
+        .less-btn{
+          height: 30px;
+          width: 90%;
+          margin-left: 10px;
+          border: none;
+          border: 2px solid black;
+          border-radius: 15px;
+          background-color: chocolate;
+          visibility: hidden;
+        }
+        .comment{
+           max-height: 800px;
+           height: 250px;
+           overflow-y: auto;
+        }
+        .showmore{
+            display: none;
+        }
+
+        .card {
+            height: 540px;
+            min-height : fit-content;
+            width: 375px;
+            background-color: rgb(254, 236, 194);
+            border-radius: 50px;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .direction {
+            height: 540px;
+            background-color: rgb(254, 236, 194);
+            padding-left: 30px;
+        }
+
+        .review {
+            height:auto;
+            width: auto;
+            background-color: rgb(254, 236, 194);
+            border-radius: 50px;
+            padding-left: 0;
+            padding-right: 0;
+            
+          
+        }
+
+        .ingredient {
+            height: 300px;
+            background-color: rgb(254, 236, 194);
+
+            padding-left: 30px;
+        }
+
+        .image {
+            width: 400px;
+            height: 270px;
+        }
+
+        .chefimage {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+        }
+
+        .line {
+            height: 2px;
+            background-color: black;
+        }
+
+        .lss {
+            display: inline;
+            background-color: rgb(254, 236, 194);
+            border-radius: 20px;
+            font-size: 18px;
+            padding-left: 1%;
+            height: 31px;
+            border: 1px solid black;
+            
+        }
+
+        .lss:hover {
+            background-color: rgb(255, 175, 82);
+        }
+
+        .like {
+            width: 75px;
+            height: auto;
+        }
+
+        .share {
+            width: 95px;
+            height: auto;
+
+        }
+
+        .save {
+            width: 85px;
+            height: auto;
+        }
+
+        .second,
+        .third,
+        .forth {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        .shadow-textarea textarea.form-control::placeholder {
+            font-weight: 300;
+        }
+
+        .shadow-textarea textarea.form-control {
+            padding-left: 0.8rem;
+        }
+
+        .contact-form {
+            height: 100vh;
+            display: grid;
+            place-content: center;
+        }
+
+        .form-control:focus {
+            background-color: transparent;
+            outline: none !important;
+            border: none;
+        }
+
+        .form-control {
+            padding: 14px;
+            background-color: transparent;
+            color: black;
+            border: none;
+            outline: none;
+            border-radius: 6px;
+            border-bottom: 1px solid rgb(33, 3, 22);
+        }
+
+        .submitreview {
+            display: inline;
+            background-color: rgb(255, 175, 82);
+            height: 45px;
+            width: 90px;
+            border-radius: 20px;
+        }
+
+        .submitreview:hover {
+            background-color: rgb(255, 154, 39);
+        }
+
+        .ingredient{
+            height: 515px;
+            justify-content: center;
+            align-items:center;
+            padding-top: 3%;
+            padding-left: 12%;
+            
+        }
+     .p-3{
+        font-size: 30px;
+     }
+    .upper{
+        margin-bottom: 0 !important;
+    } 
+    @media screen and (max-width:300px ) {
+        .fourth{
+            margin-top: 2px !important;
+           
+            width: auto !important ;
+            height: auto !important;
+        }
+        .lss{
+            margin-left: 4px !important;
+            margin-right: 4px !important;
+        }
+    }
+    @media screen and (min-width:300px ) {
+        .fourth{
+            margin-top: 7px !important;
+           
+            width: auto !important;
+            height: auto !important;
+        }
+        
+    }
+    </style>
+</head>
+
+<body>
+
+    <div class="main row container d-flex justify-content-around mx-auto my-5">
+
+        <div class="upper container d-flex justify-content-around row m-3 px-0 ">
+
+            <div class="card col-12 col-md-4 border m-xxl-auto m-3 " >
+
+                <figure class="figure">
+                    <img src="{% static 'img/gulab.jpg' %}"
+                        class="image img-fluid rounded-5" alt="Card image cap">
+                </figure>
+
+
+                <div class="second row mt-2">
+
+                    <div class="chef col-lg-6 d-flex justify-content-start">
+                        <div class="chefname">
+                            <div>-By Sagar Bhai</div>
+                            <div class="line"></div>
+                            <div class="text-end">LA</div>
+                        </div>
+
+                        <img src="{% static 'img/gc.jpeg' %}" class="chefimage m-auto" alt="chefimage">
+                    </div>
+
+                    <div class="recipe col-lg-6 col-sm-12 d-flex justify-content-lg-end">
+
+                        <div class="chefname">
+                            <div class="row">
+                                <span class="fs-3 fw-bolder">
+                                    Gulabjamun
+                                </span>
+                            </div>
+
+                            <div class="fs-6 fw-bolder">
+                                <span style="color: blue;">4.8</span>
+                                <span style="color: orange;">rating</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="third row d-flex justify-content-between mt-2">
+                    <div class="col-lg-6 col-sm-12 justify-content-lg-start">
+                        indian, Lunch
+                    </div>
+                    <div class="col-lg-6 col-sm-12 justify-content-lg-end text-end">
+                        75 min
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="fourth d-flex justify-content-between mt-5">
+                    <div class="lss like mx-auto">
+                        <button class="btn btn-transparent btn-sm" name="like" id="like">
+                            <i class="fa-solid fa-heart"></i>
+                            Like
+                        </button>
+                    </div>
+                    <div class="lss share mx-auto">
+                        <button class="btn btn-transparent btn-sm" name="share" id="share">
+                            <i class="fa-sharp fa-solid fa-share-nodes"></i>
+                            Share
+                        </button>
+                    </div>
+                    <div class="lss save mx-auto">
+                        <button class="btn btn-transparent btn-sm" name="save" id="save">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Save
+                        </button>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="direction col-12 col-md-8 overflow-auto rounded-5 m-xxl-auto m-3">
+
+                <div class="contactForm form-group shadow-textarea py-3">
+                    <h1>Direction</h1>
+                    <p>
+                        
+                        <ul>
+                            <li>
+                                Grate khoya(mawa) and paneer or chenna add maida (all-purpose flour) and 1 teaspoon cardamom powder and mix them well in food preocessor….if you find it hard add 2 tablespoon milk and mix it well…this dough shoul be soft.
+                            </li>
+                            <li>
+                                The main part which is actually very intresting is to make modak of this dough… you can modak mould by greasing it with ghee and stuff it with this dough  by keeping the middle portion hollow put little stuffing into hollow space and again fill the modak mould with the dough …do remember to grease the modak mould with ghee before use ..Make all the modaks in this way…the other way of making this modak is by hands ….first make 2 inch balls by filling little stuffing in each ball of this dough and then give them the shape of modak using your fingers …
+                            </li>
+                            <li>
+                                Mix water and sugar in a container and bring it to boil on medium flame …boil this sugar syrup until it reaches single thread consistency…. Remove it from flame ….To this syrup add ½ teaspoon cardamom powder and rose water ….
+                            </li>
+                            <li>
+                                Mix water and sugar in a container and bring it to boil on medium flame …boil this sugar syrup until it reaches single thread consistency…. Remove it from flame ….To this syrup add ½ teaspoon cardamom powder and rose water ….
+                            </li>
+                            <li>
+                                Now remove the gulab jamun modak from the syrup and garnish them with desiccated coconut or roasted khu khus.
+                            </li>
+                            <li>
+                                Serve it warm or chilled ….personally I prefer the chilled one…this modak r super surprise for your family members …
+                            </li>
+                           
+                        </ul>
+
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="down container d-flex justify-content-around row p-0 mx-auto">
+
+            <!-- <div class="review col-12 col-md-4 order-last order-xxl-first rounded-5 m-xxl-auto m-3"> -->
+                <div class="review-container"style="background-color: rgb(254, 236, 194);">
+                    <div class="boxsubmit">
+                        <button type="button" class="btn btn-primary btn-lg btn-block" style="background-color: chocolate; border:3px solid black; color:black; border-radius: 20px;"onclick="window.location.href='/login'">Login</button>
+                       <br>
+                        <button type="button" class="btn btn-primary btn-lg btn-block" style="background-color: chocolate; border:3px solid black; color:black; border-radius: 20px;"onclick="window.location.href='/signup'">Sign up</button>
+                        
+                    </div>
+                    <div class="comment">
+            
+                        <div class="review view">
+                            <div class="para">
+                           <img src="{% static 'img/u1.jpeg' %}" alt="J.K. Jonas">
+                           <p>Hitesh patel</p>
+                       </div>
+                        <p>Thanks. I was hoping that you would all enjoy this meal.</p>
+                      </div>
+            
+                      <div class="review">
+                          <div class="para">
+                              <img src="{% static 'img/u2.jpeg' %}" alt="J.K. Jonas">
+                              <p>Rutu Patel</p>
+                          </div>
+                          <p>I have been a vegetarian for a year and I do not even miss eating meat at all.</p>
+                      </div>
+            
+                      <div class="review showmore">
+                          <div class="para">
+                              <img src="{% static 'img/u3.jpeg' %}" alt="J.K. Jonas">
+                              <p>Shrut chhaiya</p>
+                          </div>
+                          <p>My grandma makes amazing cookies, cakes and pies. I always look forward to dessert when I go to her house.</p>
+                      </div>
+                  </div>
+                      <button class="more-btn" onclick="showMore()">More</button>
+                      <button class="less-btn" onclick="showLess()">Less</button>
+                  </div>
+            <!-- </div> -->
+
+            <div class="ingredient col-12 col-md-8 order-first order-xxl-last overflow-auto rounded-5 m-xxl-auto m-3">
+                <h1 style="font-size:55px;">Ingredients</h1>
+                <div class="table-responcive">
+                    <table class="p-3" >
+                        <tr>
+                            <td>khoya(mawa)</td>
+                            <td>2 cups</td>
+                        </tr>
+                        <tr>
+                            <td>Paneer or chenna </td>
+                            <td>¾ cup </td>
+                        </tr>
+                        <tr>
+                            <td>maida (all purpose flour)</td>
+                            <td>2 tablespoon </td>
+                        </tr>
+                        <tr>
+                            <td>Cardamom powder</td>
+                            <td>1½ teaspoon </td>
+                        </tr>
+                        <tr>
+                            <td>sugar</td>
+                            <td>2½ cup</td>
+                        </tr>
+
+                        <tr>
+                            <td>rosewater</td>
+                            <td>1 tablespoon</td>
+                        </tr>
+
+                        <tr>
+                            <td>milk to make the dough</td>
+                            <td>2 tablespoon</td>
+                        </tr>
+
+                        <tr>
+                            <td>Water </td>
+                            <td>4 cups</td>
+                        </tr>
+
+                        <tr>
+                            <td>Ghee for deep frying</td>
+                            <td>Taste According</td>
+                        </tr>
+
+                        
+
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+        var showmore=document.querySelector(".showmore");
+        var morebtn=document.querySelector(".more-btn");
+        var lessbtn=document.querySelector(".less-btn");
+        function showMore(){
+        showmore.style.display="flex";
+        morebtn.style.visibility="hidden";
+        lessbtn.style.visibility="visible";
+        }
+        function showLess(){
+        showmore.style.display="none";
+        morebtn.style.visibility="visible";
+        lessbtn.style.visibility="hidden";
+        }
+    </script>
+</body>
+
+</html>

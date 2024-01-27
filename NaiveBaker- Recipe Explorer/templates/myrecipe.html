@@ -1,0 +1,503 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            /* Base styles for all screen sizes */
+            body {
+                font-family: Arial, sans-serif;
+            }
+
+            /* Style for the search container */
+            .search-container {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 50vh;
+                background-image: url('image/main_home_page.jpg');
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center;
+            }
+
+            /* Style for the search bar container */
+            .search-bar-container {
+                display: flex;
+                align-items: center;
+                border-radius: 10px;
+                width: 80%;
+                max-width: 400px;
+
+                background: rgba(255, 255, 255, 0.8);
+                /* Semi-transparent background */
+                padding: 8px;
+                margin: 0 10px; /* Add spacing on both sides */
+            }
+
+            /* Style for the search input */
+            .search-input {
+                flex-grow: 1;
+                border: none;
+                outline: none;
+                font-size: 16px;
+                padding: 10px;
+                border-radius: 20px;
+            }
+
+            /* Style for the search button */
+            .search-button {
+                background-color: #4285f4;
+                color: #fff;
+                border: none;
+                border-radius: 20px;
+                padding: 10px 20px;
+                cursor: pointer;
+                margin-left: 10px;
+            }
+
+            /* Style for the recipe cards */
+            .recipe {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-around;
+                margin-top: 20px;
+            }
+
+            /* Media query for smaller screens */
+            @media (max-width: 768px) {
+                .search-bar-container {
+                    width: 90%;
+                    margin: 0px auto;
+                }
+
+                .recipe {
+                    flex-wrap: wrap;
+                }
+
+                /* Add spacing on both sides for filter form */
+                .filter-form {
+                    margin: 0 10px;
+                }
+            }
+
+            @media (max-width: 400px) {
+                
+                .recipe {
+                    flex-wrap: wrap;
+                }
+                /* Add spacing on both sides for filter form */
+                .filter-form {
+                    width: 50%;
+                    margin: 0 10px;
+                }
+            }
+
+            /* Style for the filter container */
+            .filter-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                position: relative;
+            }
+
+            /* Style for the filter button */
+            .filter-button {
+                background-color: #3498db;
+                color: #fff;
+                border: none;
+                padding: 10px 20px;
+                cursor: pointer;
+            }
+
+            /* Style for the filter form */
+            .filter-form {
+                display: none;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 100%;
+                max-width: 400px;
+                background-color: #fff;
+                border: 1px solid #ccc;
+                padding: 20px;
+                border-radius: 10px;
+                z-index: 2;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .filter-form label,
+            .filter-form select,
+            .filter-form input,
+            .filter-form button {
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            .filter-form button {
+                background-color: #3498db;
+                color: #fff;
+                border: none;
+                padding: 5px 10px;
+                cursor: pointer;
+            }
+
+            .time-input {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .time-input label {
+                margin-right: 10px;
+            }
+
+            .time-input input {
+                height: 20px;
+                text-align: center;
+                width: 40px;
+                padding: 1px;
+                border-radius: 1.5rem;
+            }
+
+            .food-categories {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .food-categories label {
+                flex: 1;
+                text-align: center;
+                margin: 5px;
+            }
+
+            .food-categories input[type="radio"] {
+                display: none;
+            }
+
+            .food-categories input[type="radio"]+label {
+                padding: 5px;
+                background-color: #eee;
+                border: 5px solid #ccc;
+                border-radius: 20px;
+                cursor: pointer;
+            }
+
+            .food-categories input[type="radio"]:checked+label {
+                background-color: #007bff;
+                color: #fff;
+            }
+
+            .ingredients {
+                margin-top: 20px;
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                /* Adjust ingredient layout for smaller screens */
+            }
+
+            .ingredients label {
+                margin-right: 10px;
+            }
+
+            .ingredient-list {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                /* Center horizontally */
+                align-items: center;
+                /* Center vertically */
+                margin-top: 10px;
+                /* Add some top margin for spacing */
+            }
+
+            .ingredient-item {
+                display: flex;
+                align-items: center;
+                margin-right: 10px;
+                margin-bottom: 10px;
+            }
+
+            .ingredient-item input[type="text"] {
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 20px;
+                background-color: #eee;
+                border: 5px solid #ccc;
+            }
+
+            .ingredient-item input[type="checkbox"] {
+                display: none;
+            }
+
+            .ingredient-item input[type="checkbox"]:checked+label {
+                background-color: blue;
+                color: #fff;
+            }
+
+            .add-ingredient-button {
+                background-color: blue;
+                color: ;
+                text-align: center;
+                border: none;
+                padding: 5px 10px;
+                cursor: pointer;
+            }
+
+            .remove-ingredient-button {
+                background-color: #e74c3c;
+                color: #fff;
+                border: none;
+                padding: 5px 10px;
+                cursor: pointer;
+            }
+
+            /* Media query for iPhone SE and similar screens */
+            @media (max-width: 320px) {
+                .filter-form {
+                    max-width: 100%;
+                    /* Full width on small screens */
+                }
+            }
+
+            /* Media query for even smaller screens */
+            @media (max-width: 576px) {
+                .search-bar-container {
+                    width: 100%;
+                }
+            }
+
+            /* Style for the filter form when it's displayed */
+            .filter-form.active {
+                background-color: rgb(254, 236, 194);
+                margin-top: 15px;
+                display: block;
+                position: absolute;
+                top: 50%;
+                margin-left: auto;
+                left: 50%;
+                transform: translate(-50%, -20%);
+                z-index: 3; /* Higher z-index to appear above the overlay */
+                padding: 20px;
+                border-radius: 10px;
+            }
+            .filter-form * {
+                overflow-wrap: break-word;
+            }
+
+            /*cardsss */
+            .ncard {
+                width: 375px;
+                background-color: rgb(254, 236, 194);
+                border-radius: 50px;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .image {
+                width: 375px;
+                height: 250px;
+            }
+
+            .chefimage {
+                height: 50px;
+                width: 50px;
+                border-radius: 50%;
+            }
+
+            .line {
+                height: 2px;
+                background-color: black;
+            }
+
+            .lss {
+                display: inline;
+                background-color: rgb(254, 236, 194);
+                border-radius: 20px;
+                font-size: 18px;
+                padding-left: 1%;
+                height: 31px;
+                border: 1px solid black;
+            }
+
+            .lss:hover {
+                background-color: rgb(255, 175, 82);
+            }
+
+            .like {
+                width: 70px;
+            }
+
+            .share {
+                width: 75px;
+            }
+
+            .save {
+                width: 68px;
+            }
+
+            .cook {
+                display: inline;
+                background-color: rgb(255, 175, 82);
+                height: 45px;
+                width: 90px;
+                border-radius: 20px;
+            }
+
+            .cook:hover {
+                background-color: rgb(255, 154, 39);
+            }
+
+            .second,
+            .third,
+            .forth,
+            .fifth {
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+
+            {% comment %} blurr efect {% endcomment %}
+            .blur_effect {
+                filter: blur(5px); /* Adjust the blur amount as needed */
+                transition: filter 0.3s ease-in-out;
+            }
+        </style>
+    </head>
+    <body>
+        {% include "navbar.html" %}
+        <div class="row container-fluid blurkaro d-flex justify-content-around m-auto" style="background-color: rgb(255, 248, 232)">
+            {% for recipe in user_recipes %}
+            <div class="ncard col-lg-3 col-md-4 col-sm-6 col-xs-12 border my-5 m-1">
+
+                <figure class="figure">
+                    {% if recipe.image %}
+                    <img src="{{recipe.image.url}}"
+                        class="image img-fluid rounded-5" alt="Card image cap">
+                    {%else%}
+                    <img src="https://images.unsplash.com/photo-1611915365928-565c527a0590?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2525&q=80"
+                        class="image img-fluid rounded-5" alt="Card image cap">
+                    {%endif%}
+                </figure>
+
+
+                <div class="second row mt-2">
+
+                    <div class="chef col-lg-6 d-flex justify-content-start">
+                        <div class="chefname">
+                            <div>-{{recipe.owner}}</div>
+                            <div class="line"></div>
+                            <div class="text-end">LA</div>
+                        </div>
+
+                        <img class="chefimage m-auto" src="image.png" alt="chefimage">
+                    </div>
+
+                    <div class="recipe col-lg-6 col-sm-12 d-flex justify-content-lg-end">
+
+                        <div class="chefname">
+                            <div class="row">
+                                <span class="fs-3 fw-bolder">
+                                    {{recipe.name}}
+                                </span>
+                            </div>
+
+                            <div class="fs-6 fw-bolder">
+                                <span style="color: blue;">4.5</span>
+                                <span style="color: orange;">rating</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="third row d-flex justify-content-between mt-2">
+                    <div class="col-lg-6 col-sm-12 justify-content-lg-start">
+                        {{recipe.category}}, {{recipe.meal_time}}
+                    </div>
+                    <div class="col-lg-6 col-sm-12 justify-content-lg-end text-end">
+                        {{recipe.recipe_time}}
+                    </div>
+                </div>
+
+                <div class="line"></div>
+
+                <br>
+
+                <div class="fourth d-flex justify-content-between">
+                    <div class="lss like likeone mx-auto">
+                        <button class="btn btn-transparent btn-sm " name="like" id="like">
+                            <i class="fa-solid fa-heart"></i>
+                            Like
+                        </button>
+                    </div>
+                    <div class="lss share mx-auto">
+                        <button class="btn btn-transparent btn-sm" name="share" id="share">
+                            <i class="fa-sharp fa-solid fa-share-nodes"></i>
+                            Share
+                        </button>
+                    </div>
+                    <div class="lss save mx-auto">
+                        <button class="btn btn-transparent btn-sm" name="save" id="save">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            Save
+                        </button>
+                    </div>
+                </div>
+
+                <div class="fifth cook d-flex justify-content-center mx-auto mt-3 mb-1">
+                    <button class="btn btn-transparent btn-sm" name="cook" id="cook">
+                        {% comment %} <div class="fs-4" onclick = "location.href='/dashboard/myrecipe/myshowrecipe'"> {% endcomment %}
+                        <div class="fs-4" onclick="cookButtonClick('{{ recipe.name }}',
+                        '{{ recipe.owner }}',
+                        '{{ recipe.category }}',
+                        '{{ recipe.meal_time }}',
+                        '{{ recipe.recipe_time }}',
+                        '{{recipe.ingredients}}',
+                        '{{recipe.instructions}}')">
+                            Cook
+                        </div>
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        {% include "footer.html" %}
+    </body>
+    <script>
+
+   
+
+   function cookButtonClick(name, owner, category, mealTime, recipeTime,instrctions,ingredients) {
+        
+        var name= name
+        var owner= owner
+        var category=category
+        var mealTime= mealTime
+        var recipeTime= recipeTime
+        var instrctions=instrctions
+        var ingredients=ingredients
+        instrctions = encodeURIComponent(instrctions);
+        ingredients = encodeURIComponent(ingredients);
+        const stri = "param1="+owner+"&param2="+name.trim()+"&param3="+mealTime.trim()+"&param4="+category.trim()+"&param5="+recipeTime.trim()+"&param6="+ingredients+"&param7="+instrctions;
+        console.log(stri);
+        //var url = "/home/?"+recipeData;
+        //console.log("url iis " + url)
+        //window.location.href = url;
+        var url = "/dashboard/myrecipe/myshowrecipe/?"+stri;
+        console.log("url iis " + url)
+        window.location.href = url;
+    }
+    </script>
+</html>

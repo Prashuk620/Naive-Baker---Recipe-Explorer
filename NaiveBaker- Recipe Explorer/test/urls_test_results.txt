@@ -1,0 +1,29 @@
+PS R:\dummy\naivebaker\naivebaker> python manage.py test
+Found 21 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+S...S.SSS..S......F...........
+======================================================================
+
+----------------------------------------------------------------------
+Ran 21 tests in 6.638s
+
+Success (Success=18, failures=3, errors=0)
+Destroying test database for alias 'default'...
+
+3 failures because intentionally cahnging the routing in urls.py 
+
+After removing the bugs
+
+PS R:\dummy\naivebaker\naivebaker> python manage.py test
+Found 21 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+S...S.SSS..S..................
+======================================================================
+
+----------------------------------------------------------------------
+Ran 21 tests in 7.45s
+
+Success (Success=18, failures=0, errors=0)
+Destroying test database for alias 'default'...

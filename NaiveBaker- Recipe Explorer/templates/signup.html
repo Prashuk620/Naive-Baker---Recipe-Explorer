@@ -1,0 +1,290 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+            integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+            crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+            body {
+                /* background-image: url('https://images.unsplash.com/photo-1501959915551-4e8d30928317?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1080&ixid=MnwxfDB8MXxyYW5kb218MHx8Y29va2luZ3x8fHx8fDE2OTg1MTk2NTU&ixlib=rb-4.0.3&q=80&utm_campaign=api-credit&utm_medium=referral&utm_source=unsplash_source&w=1560'); */
+                background-repeat: no-repeat;
+                place-content: center;
+                background-color:#FFF8E8;        }
+
+            @media (max-width: 1400px) {
+                .password-container {
+                    width: 260px;
+                    position: absolute;
+                }
+
+                .dev {
+                    width: 260px;
+                    position: absolute;
+                }
+
+                .fa-eye {
+                    position: absolute;
+                    top: 20px;
+                    right: 1%;
+                    color: lightgray;
+                    cursor: pointer;
+                }
+            }
+
+            @media (max-width: 1200px) {
+                .password-container {
+                    width: 288px;
+                    position: absolute;
+                }
+
+                .dev {
+                    width: 288px;
+                    position: absolute;
+                }
+
+                .fa-eye {
+                    position: absolute;
+                    top: 20px;
+                    right: 1%;
+                    color: lightgray;
+                    cursor: pointer;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .password-container {
+                    width: 468px;
+                    margin-top: -30px;
+                    margin-bottom: 50px;
+                }
+
+                .dev {
+                    width: 468px;
+                    margin-top: -30px;
+                    margin-bottom: 50px;
+                }
+
+                .devi {
+                    right: 1%;
+                    color: lightgray;
+                    cursor: pointer;
+                    margin-left: 50px;
+                    margin-top: -60px;
+                    margin-bottom: 500px;
+                }
+            }
+
+            @media (max-width: 575px) {
+                .password-container {
+                    width: 502px;
+                    margin-top: -30px;
+                    margin-bottom: 50px;
+                }
+
+                .dev {
+                    width: 502px;
+                    margin-top: -30px;
+                    margin-bottom: 50px;
+                }
+
+                .devi {
+                    right: 1%;
+                    color: lightgray;
+                    cursor: pointer;
+                    margin-left: 50px;
+                    margin-top: -60px;
+                    margin-bottom: 500px;
+                }
+            }
+
+
+            .card-registration .select-input.form-control[readonly]:not([disabled]) {
+                font-size: 1rem;
+                line-height: 2.15;
+                padding-left: .75em;
+                padding-right: .75em;
+            }
+
+            .card-registration .select-arrow {
+                top: 13px;
+            }
+            .password-container {
+                width: 315px;
+                position: relative;
+            }
+
+
+            .password-container input[type="password"],
+            .password-container input[type="text"] {
+                padding: 12px 0px 12px 12px;
+                box-sizing: border-box;
+            }
+
+            .fa-eye {
+                position: absolute;
+                top: 20px;
+                margin: auto;
+                right: 4%;
+                color: lightgray;
+                cursor: pointer;
+            }
+
+            @media (max-width: 770px) {
+                .fa-eye {
+                    margin-top: -35px;
+                }
+            }
+
+            @media (max-width: 575px) {
+                matchWidth();
+            }
+        </style>
+    </head>
+
+    <body>
+        <section class="vh-100 gradient-custom">
+            <div class="container py-5 h-100">
+                <div class="row justify-content-center align-items-center h-100">
+                    <div class="col-12 col-lg-9 col-xl-7">
+                        <div class="card-body p-4 p-md-5" style="background-color:#FCD5815C;">
+                            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 spct" style="color:rgb(96, 93, 93);">Register here to receive new recipes and to share your own.
+                            </h3>
+                            <form action="/signup" method="post">
+                                {% csrf_token %} 
+                                {% if messages %}
+
+                                {% for message in messages %}
+                                <div class="alert alert-info">
+                                    {{ message }}
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                                <div class="row">
+                                
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-outline">
+                                            <input type="text" id="firstName" name="username" class="form-control form-control-lg"
+                                                placeholder="UserName" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-outline">
+                                            <input type="text" id="lastName" name="lastname" class="form-control form-control-lg"
+                                                placeholder="Last Name" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-4 d-flex align-items-center">
+                                        <div class="form-outline datepicker w-100">
+                                            <input type="email" name="email" class="form-control form-control-lg" id="email"
+                                                placeholder="Email" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <h6 class="mb-2 pb-1">Gender: </h6>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                id="maleGender" value="option2" checked />
+                                            <label class="form-check-label" for="maleGender">Male</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                id="femaleGender" value="option1" />
+                                            <label class="form-check-label" for="femaleGender">Female</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                id="otherGender" value="option3" />
+                                            <label class="form-check-label" for="otherGender">Other</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-4 pb-2">
+                                        <div class="form-outline">
+                                            <div class="password-container">
+                                                <input type="password" placeholder="Password" name="password1" id="password"
+                                                    class="form-control form-control-lg dev" style="height:48px;"
+                                                    required />
+                                                <div class="devla">
+                                                    <i class="fa-solid fa-eye devi" id="eye"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4 pb-2">
+                                        <div class="form-outline">
+                                            <input type="password" id="confirmpassword" name="password2"
+                                                class="form-control form-control-lg" placeholder="Confirm password"
+                                                required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-4 pb-2">
+                                        <div class="form-outline">
+                                            <input type="text" id="age" name="age" pattern="\d+" class="form-control form-control-lg"
+                                                placeholder="Age" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4 pb-2">
+                                        <div class="form-outline">
+                                            <input type="tel" id="phone" name="phone" class="form-control form-control-lg"
+                                                placeholder="Phone Number" required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" mame="submit" id="submit"
+                                        class="submit btn btn-primary">Submit</button>
+                                </div>
+                                <div class="text-center" style="margin-top:15px;">
+                                    <button onclick="toggleMenuOpen()" type="submit" mame="submit" id="submit"
+                                        class="submit btn btn-primary" >Goto-login</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script>
+            const passwordInput = document.getElementById('password');
+            const eye = document.getElementById("eye");
+
+            eye.addEventListener("click", function () {
+                this.classList.toggle("fa-eye-slash");
+                const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+                passwordInput.setAttribute("type", type);
+            });
+
+            function matchWidth() {
+                const sourceElements = document.getElementsByClassName("form-control");
+                const targetElements = document.getElementsByClassName("password-container");
+                const targetElements2 = document.getElementsByClassName("dev");
+
+                for (let i = 0; i < sourceElements.length; i++) {
+                    const sourceWidth = sourceElements[i].offsetWidth;
+                    targetElements[i].style.width = sourceWidth + "px";
+                    targetElements2[i].style.width = sourceWidth + "px";
+                }
+            }
+            function toggleMenuOpen() {
+                window.location.assign("/")
+            } 
+            window.addEventListener("load", matchWidth);
+            window.addEventListener("resize", matchWidth);
+        </script>
+    </body>
+
+    </html>

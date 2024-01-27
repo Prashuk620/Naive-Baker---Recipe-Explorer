@@ -1,0 +1,12 @@
+PS R:\dummy\naivebaker\naivebaker> python manage.py test
+Found 31 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+S...S.SSS..S..................
+======================================================================
+
+----------------------------------------------------------------------
+Ran 31 tests in 7.241s
+
+Success (Success=31, failures=0, errors=0)
+Destroying test database for alias 'default'...

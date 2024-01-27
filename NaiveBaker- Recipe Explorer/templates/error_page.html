@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include headerlinks.html %}
+</head>
+
+<body>
+    {% include navbar.html %}
+    {{!-- <Body background="images/404.jpeg" style="width: 100vw;height:100vh"> --}}
+    <!-- main header -->
+    <div class="container-fluid main_header">
+        <div class="row">
+            <div class="col-md-11 col-12 mx-auto">
+                <div class="row">
+                    <div class="col-md-12 col-12 main_header_left align-items-center">
+                        <figure class="error_img newc">
+                            <img src="images/404.jpeg" alt="dveansh" 
+                                class="img-fluid" title="macho devansh">
+                        </figure>
+
+                        <p>Welcome to devash's app world</p>
+                        <h2>{{errormsg}}</h2>
+                        <a href="/"><button class="">GO BACK</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- foooter -->
+    {%include footer.html%}
+</body>
+
+</html>

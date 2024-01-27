@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>contact form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .contact-form {
+            height: 100vh;
+            display: grid;
+            place-content: center;
+        }
+
+        .containerdev {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            height: 100%;
+            width: 100%;
+            flex-wrap: wrap;
+            overflow-y:auto;
+            /* padding: 0 4rem;  */
+            /* overflow: hidden; */
+        }
+
+
+        h3 {
+            font-size: 35px;
+        }
+
+        .a2 {
+            font-size: 12px;
+        }
+
+        .c1 {
+            background-color: rgb(254, 236, 194);
+            /* background-color: rgb(245, 49, 177); */
+            color: black;
+            /* border: 1px solid firebrick; */
+        }
+
+
+        .c2 {
+            align-self: stretch;
+            box-shadow: 7px 7px 12px rgb(185, 174, 174);
+            background-color: white;
+            height: 100%;
+            overflow-y:auto;
+        }
+
+        .c1,
+        .c2 {
+            padding: 27px 40px;
+            font-size: larger;
+            width: 400px;
+        }
+
+        .form-control:focus {
+            background-color: transparent;
+            outline: none ;
+            border: none;
+        }
+
+        .form-control {
+            padding: 14px;
+            background-color: transparent;
+            color: black;
+            border: none;
+            outline: none;
+            border-radius: 6px;
+            border-bottom: 1px solid rgb(33, 3, 22);
+        }
+
+        .form-control::placeholder {
+            color: black;
+        }
+
+
+        #reason {
+            background-color: transparent;
+            border: none;
+            color: black;
+        }
+
+        #reason:focus {
+            border: none;
+            outline: none;
+        }
+
+        #reason option {
+            background-color: transparent;
+            color: black;
+        }
+
+        .submit {
+            margin-top: 2rem;
+            padding: 10px 40px;
+            border: none;
+            border-radius: 6px;
+            background-color: rgb(255, 179, 0);
+            color: black;
+            font-size: 16px;
+        }
+
+        .submit:hover {
+            color: rgba(36, 28, 118, 0.95);
+        }
+
+        .rs {
+
+            padding: 20px;
+
+        }
+
+        .rs1 {
+            margin: 7px;
+        }
+
+        .light {
+            color: rgb(175, 175, 175);
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .contactus {
+            text-decoration: underline rgb(228, 78, 193);
+        }
+
+        .a7 {
+            border: none;
+        }
+
+        label {
+            padding-left: 12px;
+            font-size: 18px;
+        }
+
+        @media screen and (max-width: 800px) {
+            .c1 {
+                position: absolute;
+                height: 80%;
+                top: 5%;
+            }
+
+            .c2 {
+                position: absolute;
+                top: 80%;
+                height: 50%;
+                padding-bottom: 350px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {% include "navbar.html" %}
+    <div class="contact-form">
+        <div class="containerdev">
+            <div class="c1">
+                <div class="a1">
+                    <h3>Send us a message</h3>
+                </div>
+
+                <div class="a2">Contact us today, and get reply within 24 hours!</div>
+                <form method="post" id="contactForm" name="contactForm" class="contactForm " action = "/contact">
+                    {% csrf_token %}
+                    <br />
+                    <div class="a3">
+                        <!-- name -->
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Name" required />
+                    </div>
+                    <br />
+
+                    <div class="a4">
+                        <!-- email -->
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email" required />
+                    </div>
+
+                    <br />
+
+                    <!-- recipe name -->
+                    <div class="a5">
+                        <input type="text" class="form-control" id="recipe_name" name="recipe_name"
+                            placeholder="recipe_name" />
+                    </div>
+
+                    <br />
+
+                    <div class="a5">
+                        <!-- phone number -->
+                        <input type="tel" class="form-control" id="phone" name="phone" placeholder="phone number"
+                            required />
+                    </div>
+                    <br />
+
+                    <fieldset class="a7 ">
+                        <label>Reason for Contact:</label>
+                        <select id="reason" name="reason">
+                            <option value="none" selected disabled hidden>
+                                select query
+                            </option>
+                            <option value="general">General Query</option>
+                            <option value="feedback">Feedback</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </fieldset>
+
+                    <br>
+
+                    <div class="a6">
+                        <input name="message" class="form-control" id="message" cols="20" rows="3"
+                            placeholder="Type your review here"></textarea>
+                    </div>
+
+                    <input type="submit" name="submit" id="submit" class="submit">
+                </form>
+            </div>
+
+            <div class="c2">
+                <h3>Contact us</h3>
+                <p class="light">We're open for any suggestion or just to have a chat</p>
+                <div class="rs">
+                    <div class="rs1">
+                        <p>
+                            <span>Address:</span>
+                            <span class="light">Daiict college, Reliance Cross Rd, Gandhinagar, Gujarat 382007</span>
+                        </p>
+                    </div>
+                    <br>
+                    <div class="rs1">
+                        <p>
+                            <span>Phone:</span>
+                            <a href="tel://1234567920" class="light">+ 1235 2355 98</a>
+                        </p>
+                    </div>
+                    <br>
+                    <div class="rs1">
+                        <p>
+                            <span>Email:</span>
+                            <a href="mailto:info@yoursite.com" class="light">info@yoursite.com</a>
+                        </p>
+                    </div>
+                    <br>
+                    <div class="rs1">
+                        <span>Website</span> <a href="#" class="light">naviebaker.com</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include "footer.html" %}
+</body>
+
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Card</title>
+
+    <link rel="stylesheet" href="abc.css">
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    {% include "headerlinks.html" %}
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(252, 252, 255); /* Change background color */
+        }
+
+        .profile-card {
+            margin-top: 50px; /* Reduce top margin */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 370px;
+            width: 100%;
+            background: #27445D; /* White background */
+            {% comment %} background:rgbrgb(254, 236, 194); {% endcomment %}
+            border-radius: 16px; /* Slightly reduce border-radius */
+            padding: 20px; /* Reduce padding */
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Adjust shadow color */
+            position: relative;
+            height: 100%;
+        }
+
+        .profile-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 36%;
+            width: 100%;
+            border-radius: 16px 16px 0 0; /* Adjust border-radius */
+            background-image: url("final.jpeg");
+        }
+
+        .image {
+            position: relative;
+            height: 150px;
+            width: 150px;/* 
+            border-radius: 30%;
+            background-color: #4070f4;
+            padding: 3px;
+            margin-bottom: 10px; 
+            margin-top: 50px;  */
+        }
+
+        .image .profile-img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            border: 3px solid #fff;
+            border-radius: 100px;
+        }
+
+        .text-data {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color:white;
+        }
+
+        .text-data .name {
+            font-size: 24px; /* Increase font size */
+            font-weight: 600; /* Increase font weight */
+            margin-top: 10px; /* Adjust top margin */
+        }
+
+        .text-data .job {
+            font-size: 14px; /* Reduce font size */
+            font-weight: 300; /* Reduce font weight */
+        }
+
+        .buttons {
+            align-items: center;
+            margin-top: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .button {
+            width: 75%;
+            color: #fff;
+            font-size: 16px; /* Increase font size */
+            font-weight: 500; /* Increase font weight */
+            border: none; /* Remove border */
+            border-radius: 8px; /* Slightly reduce border-radius */
+            margin: 0 10px;
+            padding: 10px 20px; /* Adjust padding */
+            background-color: #5DB21F; /* Green color */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+    </style>
+</head>
+<body style="background: rgb(255, 248, 232);">
+    {%include "navbar.html"%}
+    <div class="row-3 container d-flex justify-content-around" style="margin-top:0px; margin-bottom:100px; height:60vh;">
+        <div class="profile-card">
+            <div class="image">
+                <img src="https://images.rawpixel.com/image_png_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdjkzNy1hZXctMTY1LnBuZw.png" alt="Avatar" class="profile-img">
+            </div>
+
+            <div class="text-data">
+                <span class="name">
+                    {{username}}
+                </span>
+                <span class="job">
+                    {{email}}
+                </span>
+            </div>
+
+            <div class="buttons">
+                <button class="button" onclick="location.href='/dashboard/myrecipe'">
+                    My Recipes
+                </button>
+
+                <button class="button" onclick="location.href='/dashboard/saved_recipe'">
+                    Saved Recipes
+                </button>
+
+            </div>
+        </div>
+    </div>
+    {%include "footer.html"%}
+</body>
+</html>

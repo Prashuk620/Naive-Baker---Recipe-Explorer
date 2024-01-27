@@ -1,0 +1,1095 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% include "headerlinks.html" %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Base styles for all screen sizes */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        /* Style for the search container */
+        .search-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            background-image: url('static/img/main_home_page.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Style for the search bar container */
+        .search-bar-container {
+            display: flex;
+            align-items: center;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 400px;
+
+            background: rgba(255, 255, 255, 0.8);
+            /* Semi-transparent background */
+            padding: 8px;
+            margin: 0 10px; /* Add spacing on both sides */
+        }
+
+        /* Style for the search input */
+        .search-input {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 20px;
+        }
+
+        /* Style for the search button */
+        .search-button {
+            background-color: #4285f4;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        /* Style for the recipe cards */
+        .recipe {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        /* Media query for smaller screens */
+        @media (max-width: 768px) {
+            .search-bar-container {
+                width: 90%;
+                margin: 0px auto;
+            }
+
+            .recipe {
+                flex-wrap: wrap;
+            }
+
+            /* Add spacing on both sides for filter form */
+            .filter-form {
+                margin: 0 10px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            
+            .recipe {
+                flex-wrap: wrap;
+            }
+            /* Add spacing on both sides for filter form */
+            .filter-form {
+                width: 50%;
+                margin: 0 10px;
+            }
+        }
+
+        /* Style for the filter container */
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Style for the filter button */
+        .filter-button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        /* Style for the filter form */
+        .filter-form {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            max-width: 400px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .filter-form label,
+        .filter-form select,
+        .filter-form input,
+        .filter-form button {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .filter-form button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .time-input {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .time-input label {
+            margin-right: 10px;
+        }
+
+        .time-input input {
+            height: 20px;
+            text-align: center;
+            width: 40px;
+            padding: 1px;
+            border-radius: 1.5rem;
+        }
+
+        .food-categories {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .food-categories label {
+            flex: 1;
+            text-align: center;
+            margin: 5px;
+        }
+
+        .food-categories input[type="radio"] {
+            display: none;
+        }
+
+        .food-categories input[type="radio"]+label {
+            padding: 5px;
+            background-color: #eee;
+            border: 5px solid #ccc;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .food-categories input[type="radio"]:checked+label {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .ingredients {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            /* Adjust ingredient layout for smaller screens */
+        }
+
+        .ingredients label {
+            margin-right: 10px;
+        }
+
+        .ingredient-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            /* Center horizontally */
+            align-items: center;
+            /* Center vertically */
+            margin-top: 10px;
+            /* Add some top margin for spacing */
+        }
+
+        .ingredient-item {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .ingredient-item input[type="text"] {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            background-color: #eee;
+            border: 5px solid #ccc;
+        }
+
+        .ingredient-item input[type="checkbox"] {
+            display: none;
+        }
+
+        .ingredient-item input[type="checkbox"]:checked+label {
+            background-color: blue;
+            color: #fff;
+        }
+
+        .add-ingredient-button {
+            background-color: blue;
+            color: ;
+            text-align: center;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .remove-ingredient-button {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        /* Media query for iPhone SE and similar screens */
+        @media (max-width: 320px) {
+            .filter-form {
+                max-width: 100%;
+                /* Full width on small screens */
+            }
+        }
+
+        /* Media query for even smaller screens */
+        @media (max-width: 576px) {
+            .search-bar-container {
+                width: 100%;
+            }
+        }
+
+        /* Style for the filter form when it's displayed */
+        .filter-form.active {
+            background-color: rgb(254, 236, 194);
+            margin-top: 15px;
+            display: block;
+            position: absolute;
+            top: 50%;
+            margin-left: auto;
+            left: 50%;
+            transform: translate(-50%, -20%);
+            z-index: 3; /* Higher z-index to appear above the overlay */
+            padding: 20px;
+            border-radius: 10px;
+        }
+         .filter-form * {
+            overflow-wrap: break-word;
+        }
+
+        /*cardsss */
+        .ncard {
+            width: 375px;
+            background-color: rgb(254, 236, 194);
+            border-radius: 50px;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .image {
+            width: 375px;
+            height: 250px;
+        }
+
+        .chefimage {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+        }
+
+        .line {
+            height: 2px;
+            background-color: black;
+        }
+
+        .lss {
+            display: inline;
+            background-color: rgb(254, 236, 194);
+            border-radius: 20px;
+            font-size: 18px;
+            padding-left: 1%;
+            height: 31px;
+            border: 1px solid black;
+        }
+
+        .lss:hover {
+            background-color: rgb(255, 175, 82);
+        }
+
+        .like {
+            width: 70px;
+        }
+
+        .share {
+            width: 75px;
+        }
+
+        .save {
+            width: 68px;
+        }
+
+        .cook {
+            display: inline;
+            background-color: rgb(255, 175, 82);
+            height: 45px;
+            width: 90px;
+            border-radius: 20px;
+        }
+
+        .cook:hover {
+            background-color: rgb(255, 154, 39);
+        }
+
+        .second,
+        .third,
+        .forth,
+        .fifth {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+        {% comment %} blurr efect {% endcomment %}
+        .blur_effect {
+            filter: blur(5px); /* Adjust the blur amount as needed */
+            transition: filter 0.3s ease-in-out;
+        }
+        .fs{
+            text-overflow: ellipsis;
+        }
+        .notification {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4caf50;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    {% include "navbar.html" %}
+    {% if messages %}
+     <div id="notification" class="notification">
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{message}}</li>
+            {% endfor %}
+        </ul>
+        <button id="close-notification" onclick="closeNotification()">Close</button>
+    </div>
+    {% endif %}
+
+    <div class="search-container">
+        <div class="search-bar-container" style="background:transparent">
+            <i class="fa-solid fa-magnifying-glass fa-xl" style="margin-right:5px;"></i>
+            <form id="searchForm"  action="POST" class="d-flex">
+                {% comment %} <div class="input-group"> {% endcomment %}
+                    <input type="text" class="form-control form-control-lg sfb" id="exampleInputEmail1"
+                    placeholder="Search by name"
+                    style="margin-right:-81px;border-radius: 20px;">
+
+                    <button class="search-button btn-sm" id="searchrecipename" style="margin-right: 2px;">Search</button>
+                {% comment %} </div> {% endcomment %}
+            </form>
+            {% comment %} <button class="filter-button" id="filter-button" style="background: transparent;"   >
+                <i class="fa-solid fa-filter fa-2xl" style="color:black"></i>
+            </button> {% endcomment %}
+            <button class="filter-btn btn-sm" id="filter-button" style="background: white;height:97%;border-radius:10px;">
+                <i class="fa-solid fa-filter fa-2xl" style="color:black"></i>
+            </button>
+            <div id="filter-form" class="filter-form">
+                <form id="filterForm"> <!-- Add an ID to the form -->
+                    <h3 style="display:flex;text-align:center;margin:auto;">Choose Food Category:</h3>
+                    <div class="food-categories">
+                        <input type="radio" id="indian" name="food-type" value="Indian" onClick="setCuisineType(this)">
+                        <label for="indian">Indian</label>
+            
+                        <input type="radio" id="thai" name="food-type" value="Thai" onClick="setCuisineType(this)">
+                        <label for="thai">Thai</label>
+            
+                        <input type="radio" id="mexican" name="food-type" value="Mexican" onClick="setCuisineType(this)">
+                        <label for="mexican">Mexican</label>
+            
+                        <input type="radio" id="french" name="food-type" value="French" onClick="setCuisineType(this)">
+                        <label for="french">French</label>
+            
+                        <input type="radio" id="chinese" name="food-type" value="Chinese" onClick="setCuisineType(this)">
+                        <label for="chinese">Chinese</label>
+                    </div>
+                    <h3>Choose Meal Type:</h3>
+                    <div class="food-categories">
+                        <input type="radio" id="lunch" name="meal-type" value="Lunch" onClick="setMealType(this)">
+                        <label for="lunch">Lunch</label>
+            
+                        <input type="radio" id="dinner" name="meal-type" value="Dinner" onClick="setMealType(this)">
+                        <label for="dinner">Dinner</label>
+            
+                        <input type="radio" id="breakfast" name="meal-type" value="Breakfast" onClick="setMealType(this)">
+                        <label for="breakfast">Breakfast</label>
+            
+                        <input type="radio" id="snacks" name="meal-type" value="Snacks" onClick="setMealType(this)">
+                        <label for="snacks">Snacks</label>
+                    </div>
+            
+                    <div class="ingredients">
+                        <h3 for="ingredients">Ingredients:</h3>
+                        <div class="ingredient-list" id="ingredient-list">
+                            <!-- Ingredient items will be added here dynamically -->
+                        </div>
+                        <button class="add-ingredient-button" id="add-ingredient">+</button>
+                    </div>
+                    <div class="time-input">
+                        <h3 for="time" style="margin-right: 10px;">Time:</h3>
+                        <input type="number" id="hours" name="hours" min="0" max="23">
+                        <p style="font-size: 29px; align-items:center; justify-content:center;"> : </p>
+                        <input type="number" id="minutes" name="minutes" min="0" max="59">
+                    </div>
+                    <div class="time-input">
+                    </div>
+                    <button onClick="applyForm(event)">Apply</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <div class="row container-fluid blurkaro d-flex justify-content-around m-auto" id="results" style="background-color: rgb(255, 248, 232)">
+        <div class="ncard col-lg-3 col-md-4 col-sm-6 col-xs-12 border my-5 m-1">
+
+            <figure class="figure">
+                <img src="static/img/gulab.jpg"
+                    class="image img-fluid rounded-5" alt="Card image cap">
+            </figure>
+
+
+            <div class="second row mt-2">
+
+                <div class="chef col-lg-6 d-flex justify-content-start">
+                    <div class="chefname">
+                        <div>-By Sagar Bhaijk</div>
+                        <div class="line"></div>
+                        <div class="text-end">LA</div>
+                    </div>
+                     <img class="chefimage m-auto" src="static/img/gc.jpeg" alt="chefimage">
+                </div>
+
+                <div class="recipe col-lg-6 col-sm-12 d-flex justify-content-lg-end">
+
+                    <div class="chefname">
+                        <div class="row">
+                            <span class="fs-10 fw-bolder">
+                                Gulab-jamun
+                            </span>
+                        </div>
+
+                        <div class="fs-6 fw-bolder">
+                            <span style="color: blue;">4.8</span>
+                            <span style="color: orange;">rating</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="third row d-flex justify-content-between mt-2">
+                <div class="col-lg-6 col-sm-12 justify-content-lg-start">
+                    south-indian, Dinner
+                </div>
+                <div class="col-lg-6 col-sm-12 justify-content-lg-end text-end">
+                75 min
+                </div>
+            </div>
+
+            <div class="line"></div>
+
+            <br>
+
+            <div class="fourth d-flex justify-content-between">
+                <div class="lss like likeone mx-auto">
+                    <button class="btn btn-transparent btn-sm " name="like" id="like">
+                        <i class="fa-solid fa-heart"></i>
+                        Like
+                    </button>
+                </div>
+                <div class="lss share mx-auto">
+                    <button class="btn btn-transparent btn-sm" name="share" id="share">
+                        <i class="fa-sharp fa-solid fa-share-nodes"></i>
+                        Share
+                    </button>
+                </div>
+                <div class="lss save mx-auto">
+                    <button class="btn btn-transparent btn-sm" name="save" id="save">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Save
+                    </button>
+                </div>
+            </div>
+
+            <div class="fifth cook d-flex justify-content-center mx-auto mt-3 mb-1">
+                <button class="btn btn-transparent btn-sm" name="cook" id="cook" onclick="window.open('{% url 'gulabjamun' %}', '_blank')">
+                    <div class="fs-4">
+                        Cook
+                    </div>
+                </button>
+            </div>
+        </div>
+        <div class="ncard col-lg-3 col-md-4 col-sm-6 col-xs-12 border my-5 m-1">
+
+            <figure class="figure">
+                <img src="static/img/pavbhaji.jpg"
+                    class="image img-fluid rounded-5" alt="Card image cap">
+            </figure>
+
+
+            <div class="second row mt-2">
+
+                <div class="chef col-lg-6 d-flex justify-content-start">
+                    <div class="chefname">
+                        <div>-By Mayur kohli</div>
+                        <div class="line"></div>
+                        <div class="text-end">LA</div>
+
+                    </div>
+                    <img class="chefimage m-auto" src="static/img/pc.jpeg" alt="chefimage"> 
+                </div>
+
+                <div class="recipe col-lg-6 col-sm-12 d-flex justify-content-lg-end">
+
+                    <div class="chefname">
+                        <div class="row">
+                            <span class="fs-10 fw-bolder">
+                                Pavbhaji
+                            </span>
+                        </div>
+
+                        <div class="fs-6 fw-bolder">
+                            <span style="color: blue;">4.1</span>
+                            <span style="color: orange;">rating</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="third row d-flex justify-content-between mt-2">
+                <div class="col-lg-6 col-sm-12 justify-content-lg-start">
+                    Indian, Dinner
+                </div>
+                <div class="col-lg-6 col-sm-12 justify-content-lg-end text-end">
+                    45 min
+                </div>
+            </div>
+
+            <div class="line"></div>
+
+            <br>
+
+            <div class="fourth d-flex justify-content-between">
+                <div class="lss like liketwo mx-auto">
+                    <button class="btn btn-transparent btn-sm" name="like" id="like">
+                        <i class="fa-solid fa-heart"></i>
+                        Like
+                    </button>
+                </div>
+                <div class="lss share mx-auto">
+                    <button class="btn btn-transparent btn-sm" name="share" id="share">
+                        <i class="fa-sharp fa-solid fa-share-nodes"></i>
+                        Share
+                    </button>
+                </div>
+                <div class="lss save mx-auto">
+                    <button class="btn btn-transparent btn-sm" name="save" id="save">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Save
+                    </button>
+                </div>
+            </div>
+
+            <div class="fifth cook d-flex justify-content-center mx-auto mt-3 mb-1">
+                <button class="btn btn-transparent btn-sm" name="cook" id="cook" onclick="window.open('{% url 'pavbhaji' %}', '_blank')";>
+                    <div class="fs-4">
+                        Cook
+                    </div>
+                </button>
+            </div>
+        </div>
+        <div class="ncard col-lg-3 col-md-4 col-sm-6 col-xs-12 border my-5 m-1">
+
+            <figure class="figure">
+                <img src="static/img/rice.jpg"
+                    class="image img-fluid rounded-5" alt="Card image cap">
+            </figure>
+
+
+            <div class="second row mt-2">
+
+                <div class="chef col-lg-6 d-flex justify-content-start">
+                    <div class="chefname">
+                        <div>-By Jayshree</div>
+                        <div class="line"></div>
+                        <div class="text-end">LA</div>
+                    </div>
+
+                    <img class="chefimage m-auto" src="static/img/u1.jpeg" alt="chefimage"> 
+                </div>
+
+                <div class="recipe col-lg-6 col-sm-12 d-flex justify-content-lg-end">
+
+                    <div class="chefname">
+                        <div class="row">
+                            <span class="fs-10 fw-bolder">
+                                Fried-Rice
+                            </span>
+                        </div>
+
+                        <div class="fs-6 fw-bolder">
+                            <span style="color: blue;">4.8</span>
+                            <span style="color: orange;">rating</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="third row d-flex justify-content-between mt-2">
+                <div class="col-lg-6 col-sm-12 justify-content-lg-start">
+                    Indian, Dinner
+                </div>
+                <div class="col-lg-6 col-sm-12 justify-content-lg-end text-end">
+                    60 min
+                </div>
+            </div>
+
+            <div class="line"></div>
+
+            <br>
+
+            <div class="fourth d-flex justify-content-between">
+                <div class="lss like liket mx-auto">
+                    <button class="btn btn-transparent btn-sm" name="like" id="like">
+                        <i class="fa-solid fa-heart"></i>
+                        Like
+                    </button>
+                </div>
+                <div class="lss share mx-auto">
+                    <button class="btn btn-transparent btn-sm" name="share" id="share">
+                        <i class="fa-sharp fa-solid fa-share-nodes"></i>
+                        Share
+                    </button>
+                </div>
+                <div class="lss save mx-auto">
+                    <button class="btn btn-transparent btn-sm" name="save" id="save">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Save
+                    </button>
+                </div>
+            </div>
+
+            <div class="fifth cook d-flex justify-content-center mx-auto mt-3 mb-1">
+                <button class="btn btn-transparent btn-sm" name="cook" id="cook" onclick="window.open('{% url 'friedrice' %}', '_blank')";>
+                    <div class="fs-4">
+                        Cook
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    {% include "footer.html" %}
+
+</body>
+<script>
+    const likeone =  document.querySelector('.likeone');
+    const liketwo =  document.querySelector('.liketwo');
+    const liket =  document.querySelector('.liket');
+    var blurEnabled = false;
+    const searchButton = document.getElementById('searchButton');
+    const searchInput = document.getElementById('searchInput');
+    
+    
+    const contentContainer = document.querySelector('.footer');
+    var addIngredientButton = document.getElementById('add-ingredient');
+    var ingredientList = document.getElementById('ingredient-list');
+    const blourthings = document.getElementsByClassName('blurkaro');
+    var ingredientCount = 0;
+
+
+    addIngredientButton.addEventListener('click', function () {
+        ingredientCount++;
+        var ingredientItem = document.createElement('div');
+        ingredientItem.className = 'ingredient-item';
+        ingredientItem.innerHTML = `
+        <input type="checkbox" id="ingredient${ingredientCount}" name="ingredient" value="Ingredient">
+        <input type="text" id="ingredientName${ingredientCount}" name="ingredientName" placeholder="Ingredient ${ingredientCount}">
+        <button class="remove-ingredient-button" id="remove-ingredient${ingredientCount}">-</button>
+    `;
+        ingredientList.appendChild(ingredientItem);
+
+        var removeIngredientButton = document.getElementById(`remove-ingredient${ingredientCount}`);
+        removeIngredientButton.addEventListener('click', function () {
+            ingredientList.removeChild(ingredientItem);
+            ingredientCount--;
+        });
+    });
+
+    // Add a submit event listener to the form
+    document.getElementById('filterForm').addEventListener('submit', function (event) {
+        // Check if the required fields (hours and minutes) are filled out
+        var hoursInput = document.getElementById('hours');
+        var minutesInput = document.getElementById('minutes');
+
+        if (!hoursInput.value || !minutesInput.value) {
+            // Prevent the form from submitting
+            event.preventDefault();
+            // Display the "Please fill out this form" message
+            alert('Please fill out this form');
+        }
+    });
+
+{% comment %} filterButton.addEventListener('click', function () {
+    console.log("filter-button is clicked");
+    if (filterForm.classList.contains('active')) {
+        filterForm.classList.remove('active');
+    } else {
+        filterForm.classList.add('active');
+    }
+});  {% endcomment %}
+
+// Function to handle clicks outside of the filter-for
+
+
+    likeone.onclick = function(){
+        console.log('this is like one');
+        likeone.style.backgroundColor = 'rgb(285, 66, 149)';
+    }
+    liketwo.onclick = function(){
+        liketwo.style.backgroundColor = 'rgb(285, 66, 149)';
+    }
+    liket.onclick = function(){
+        liket.style.backgroundColor = 'rgb(285, 66, 149)';
+    }
+
+    const searchForm = document.querySelector('#searchForm');
+    const searchTermInput = document.querySelector('#exampleInputEmail1');
+    const resultsList = document.querySelector('#results');
+    console.log(searchForm)
+    
+
+    let cuisineType = "";
+    let mealType ="";
+    let ingredients = ["","",""];
+
+    function setCuisineType(e) {
+        console.log(e);
+        console.log(e.value);
+        cuisineType = e.value;
+    }
+
+    function setMealType(e) {
+        console.log(e);
+        console.log(e.value);
+        mealType = e.value;
+    }
+
+    async function applyForm(e) {
+        filterForm.classList.remove('active');
+        e.preventDefault();
+        const ingredientInputs = document.querySelectorAll('input[name="ingredientName"]');
+        const ingredientsArray = Array.from(ingredientInputs).map(input => input.value);
+        console.log(ingredientsArray)
+        const limit = 12 ;
+        const searchValue = searchTermInput.value;
+        console.log(searchValue)
+        console.log(cuisineType)
+        console.log(mealType)
+        const finalSearchValue = searchValue + ' ' + cuisineType + ' ' + mealType + ' ' + ingredientsArray.join(' ');
+        console.log(ingredientsArray+" is ")
+        console.log(finalSearchValue)
+        const response = await fetch(`https://api.edamam.com/search?q=${finalSearchValue}&app_id=7aa516a5&app_key=dc836a223fb788b11ae390504d9e97ce&from=0&to=${limit}`);
+        const data = await response.json();
+        console.log(data.hits)
+        const nik1 = data.hits
+        const nik2 = nik1[0]
+        console.log(nik2)
+        //console.log(nik2.recipe)
+        //console.log(nik2.recipe.cuisineType[0])
+        //console.log(nik2.recipe.mealType[0])
+        displayRecipes(data.hits);
+    }
+
+    searchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // console.log(searchTermInput.value)
+        searchRecipes();
+    })
+
+    async function searchRecipes() {
+        const limit = 12 ;
+        const searchValue = searchTermInput.value;
+        console.log(searchValue)
+        console.log(cuisineType)
+        console.log(mealType)
+        const finalSearchValue = searchValue + ' ' + cuisineType + ' ' + mealType + ' ' + ingredients[0] + ' '+ ingredients[1] + ' ' + ingredients[2];
+        console.log(finalSearchValue)
+        const response = await fetch(`https://api.edamam.com/search?q=${finalSearchValue}&app_id=7aa516a5&app_key=dc836a223fb788b11ae390504d9e97ce&from=0&to=${limit}`);
+        const data = await response.json();
+        console.log(data.hits)
+        const nik1 = data.hits
+        const nik2 = nik1[0]
+        console.log(nik2)
+        //console.log(nik2.recipe)
+        //console.log(nik2.recipe.cuisineType[0])
+        //console.log(nik2.recipe.mealType[0])
+        displayRecipes(data.hits);
+    }
+
+    function displayRecipes(recipes) {
+        console.log("nik")
+        let html = '';
+        recipes.forEach((recipe) => {
+            var randomDecimal = Math.random();
+
+            // Scale the random decimal to the desired range (1 to 60 in this case)
+            var randomNumber = Math.floor(randomDecimal * 100) + 20;
+
+            console.log(recipe.recipe.image)
+            html += `
+            <div class="ncard col-lg-3 col-md-4 col-sm-6 col-xs-12 border my-5 m-1">
+                {% csrf_token %}
+            <figure class="figure">
+                <img src="${recipe.recipe.image}"
+                    class="image img-fluid rounded-5" alt="${recipe.recipe.label}">
+            </figure>
+
+
+            <div class="second row mt-2">
+
+                <div class="chef col-lg-6 d-flex justify-content-start">
+                    <div class="chefname">
+                        <div></div>
+                        <div class="line"></div>
+                        <div class="text-end">LA</div>
+                    </div>
+
+                    {% comment %} <img class="chefimage m-auto" src="image.png" alt="chefimage"> {% endcomment %}
+                </div>
+
+                <div class="recipe col-lg-6 col-sm-12 d-flex justify-content-lg-end">
+
+                    <div class="chefname">
+                        <div class="row">
+                            <span class="fs-10 fw-bolder recipename">
+                                ${recipe.recipe.label}
+                            </span>
+                        </div>
+
+                        <div class="fs-6 fw-bolder">
+                            <span style="color: blue;">4.5</span>
+                            <span style="color: orange;">rating</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="third row d-flex justify-content-between mt-2">
+                <div class="col-lg-6 col-sm-12 justify-content-lg-start">
+                    ${recipe.recipe.cuisineType}, ${recipe.recipe.mealType}
+                </div>
+                <div class="col-lg-6 col-sm-12 justify-content-lg-end text-end">
+                    ${randomNumber} min
+                </div>
+            </div>
+
+            <div class="line"></div>
+
+            <br>
+
+            <div class="fourth d-flex justify-content-between">
+                <div class="lss like likeone mx-auto">
+                    <button class="btn btn-transparent btn-sm " name="like" id="like">
+                        <i class="fa-solid fa-heart"></i>
+                        Like
+                    </button>
+                </div>
+                <div class="lss share mx-auto">
+                    <button class="btn btn-transparent share btn-sm" name="share" id="share">
+                        <i class="fa-sharp fa-solid fa-share-nodes"></i>
+                        Share
+                    </button>
+                </div>
+                <div class="lss save mx-auto">
+                    <button class="btn btn-transparent btn-sm save" name="save" id="save">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Save
+                    </button>
+                </div>
+            </div>
+
+            <div class="fifth cook d-flex justify-content-center mx-auto mt-3 mb-1">
+                <button class="btn btn-transparent btn-sm" onclick="window.open('${recipe.recipe.url}', '_blank')"; name="cook" id="cook">
+                    <div class="fs-4">
+                        cook
+                    </div>
+                </button>
+            </div>
+        </div>
+            
+            `
+        });
+        resultsList.innerHTML = html;
+        mealType="";
+        ingredients=["" ,"",""];
+        cuisineType="";
+        finalSearchValue="";
+        searchValue="";
+
+    }
+
+    const filterButton = document.getElementById('filter-button');
+    const filterForm = document.getElementById('filter-form');
+
+    document.addEventListener('click', function (event) {
+    // Check if the click event did not occur within the filter-form
+        if(filterButton.contains(event.target)){
+            if (filterForm.classList.contains('active')) {
+                filterForm.classList.remove('active');
+            } else {
+                console.log("ha adi le loda")
+                filterForm.classList.add('active');
+            }
+        }
+        else if (!filterForm.contains(event.target) && filterForm.classList.contains('active')) {
+            filterForm.classList.remove('active');
+            contentContainer.style.backdropFilter = 'none';
+        }
+    }); 
+    
+        
+    {% comment %} try to save {% endcomment %}
+    
+    const recipeCardsContainer = document.getElementById('results');
+    recipeCardsContainer.addEventListener('click', (event) => {
+        const clickedElement = event.target;
+        if (clickedElement.classList.contains('save')) {
+            console.log("hello in save my darlng")
+            const recipeCard = clickedElement.closest('.ncard');
+            const recipeData = extractRecipeData(recipeCard);
+            console.log(recipeData);
+            var url = "/home/?"+recipeData;
+            console.log("url iis " + url)
+            window.location.href = url;
+        }
+        else if (clickedElement.classList.contains('share')) {
+            var bodyHTML = document.body.innerHTML;
+            var maru =  `<div id="notification" class="notification">
+                            <ul class="messages">
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>link copied successfully!</li>
+                            </ul>
+                            <button id="close-notification" onclick="closeNotification()">Close</button>
+                        </div>`;
+
+            var newbody = maru+bodyHTML;
+            document.body.innerHTML = newbody;
+            console.log("hello in share my darlng")
+            const recipeCard = clickedElement.closest('.ncard');
+            const recipeData = giveurl(recipeCard);
+            copyToClipboard(recipeData);
+        }
+    });
+
+    function copyToClipboard(text) {
+        var tempInput = document.createElement("input");
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+    }
+
+    function extractRecipeData(recipeCard) { 
+
+        const recipeImage = recipeCard.querySelector('.image').src;
+        const recipeencodedImage = btoa(recipeImage);
+        const recipeLabel = recipeCard.querySelector('.recipename').textContent;
+        //const chefName = recipeCard.querySelector('.chefname div:first-child').textContent;
+        const cuisineType = recipeCard.querySelector('.third div:first-child').textContent.split(', ')[0];
+        const mealType = recipeCard.querySelector('.third div:first-child').textContent.split(', ')[1];
+        const preparationTime = recipeCard.querySelector('.third div:last-child').textContent;
+        //const recipeURL = recipeCard.querySelector('.cook button').getAttribute('href');;
+        const recipeURL =  recipeCard.querySelector('.fifth .btn').getAttribute('onclick').match(/'([^']+)'/)[1];
+        //const ecuisineType = encodeURIComponent(cuisineType);
+        //const emealType = encodeURIComponent(mealType);
+        //const epreparationTime = encodeURIComponent(preparationTime);
+        //const erecipeURL = encodeURIComponent(recipeURL);
+        //const erecipeLabel = encodeURIComponent(recipeLabel);
+
+        console.log(recipeencodedImage+"    ....in the extractRecipeData")
+        const stri = "param1="+recipeencodedImage+"&param2="+recipeLabel.trim()+"&param3="+cuisineType.trim()+"&param4="+mealType.trim()+"&param5="+preparationTime.trim()+"&param6="+recipeURL;
+        return stri;
+    }
+
+    function giveurl(recipeCard){
+        const recipeURL =  recipeCard.querySelector('.fifth .btn').getAttribute('onclick').match(/'([^']+)'/)[1];
+        return recipeURL;
+    }
+    
+    document.addEventListener("DOMContentLoaded", function () {
+        var messages = document.getElementById("notification");
+        if (messages) {
+            var message = messages.innerText.trim();
+            if (message !== "") {
+                showNotification(message);
+            }
+        }
+    });
+
+        // Function to show a notification
+    function showNotification(message) {
+        var notification = document.getElementById("notification");
+        notification.style.display = "block";
+        {% comment %} notification.innerHTML = `<ul class="messages">${message}</ul><button id="close-notification" onclick="closeNotification()">Close</button>`; {% endcomment %}
+
+        // Hide the notification after 5 seconds
+        setTimeout(function () {
+            notification.style.display = "none";
+        }, 50000);
+    }
+
+    // Function to close the notification
+    function closeNotification() {
+        var notification = document.getElementById("notification");
+        if (notification) {
+            notification.style.display = "none";
+        }
+    }
+
+</script>
+
+</html>
